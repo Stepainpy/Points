@@ -1,7 +1,7 @@
 # Points
-All working on pygame
-basic keyboard shortcuts:
-LMB - craete action point
-RMB - create passive point
-Space - pause and start move
-Esc or window cross - exiting the program
+Всё работает на библиотеке pygame\
+Это основные сочетания кнопок для программ:
+* ЛКМ - создание активной точки
+* ПКМ - создание пассивной точки
+* Пробел - пауза или пуск времени
+* Esc или крестик окна - закрытие программы
