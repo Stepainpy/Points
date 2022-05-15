@@ -4,6 +4,11 @@ import math
 
 pygame.init()
 
+# for create neutron press LMB
+# for create uranium press RMB
+# for pause/start press Space
+# for exit press Esc or window cross
+
 # parametrs
 res = wid, hei = 1920, 1080
 fps = 70
@@ -58,24 +63,26 @@ class Point: # creating class for points
         else:
             pygame.draw.circle(win, self.color, (self.x, self.y), 5)
 
-    def decay(self):
-        if self.color == green:
+    def decay(self): # uranium decay
+        if self.color == green: # checking for uranium
             for n in neutrons:
                 if math.sqrt((n.x - self.x)**2 + (n.y - self.y)**2) <= 7:
+                    # killing old neutron
                     points.remove(n)
                     neutrons.remove(n)
 
-                    for i in range(randint(2, 3)):
+                    for i in range(randint(2, 3)): # create new neutrons
                         neu = Point(self.x, self.y, randint(-speed, speed),
                                     randint(-speed, speed), blue)
                         points.append(neu)
                         neutrons.append(neu)
 
-                    for i in range(2):
+                    for i in range(2): # create new atoms
                         points.append(
                             Point(self.x, self.y, randint(-speed, speed),
                                   randint(-speed, speed), brown, 10))
 
+                    # killing uranium
                     points.remove(self)
                     break
 
@@ -119,6 +126,7 @@ while True:
         [p.update() for p in points]
         [p.decay() for p in points]
 
+        # check quantities uraniums and neutrons
         col_u = 0
         col_n = 0
         for i in points:
@@ -130,8 +138,7 @@ while True:
         # itself text
         uran = font1.render('Количество урана: ' + str(col_u), 1, (0, 0, 0))
         win.blit(uran, (3, 3))
-        neutron = font1.render('Количество нейтронов: ' + str(col_n), 1,
-                               (0, 0, 0))
+        neutron = font1.render('Количество нейтронов: ' + str(col_n), 1, (0, 0, 0))
         win.blit(neutron, (3, 23))
 
     # updating window
