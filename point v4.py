@@ -72,8 +72,10 @@ class Point: # creating class for points
                         neutrons.append(neu)
                     
                     for i in range(2):
-                        points.append(Point(self.x, self.y, randint(-speed, speed), randint(-speed, speed), brown, 10))               
+                        points.append(Point(self.x, self.y, randint(-speed, speed), randint(-speed, speed), brown, 10))
+                    
                     points.remove(self)
+                    break
 
 
 
