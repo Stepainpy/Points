@@ -21,7 +21,6 @@ clock = pygame.time.Clock()
 
 points = []
 neutrons = []
-urans = []
 
 
 class Point: # creating class for points
@@ -67,16 +66,18 @@ class Point: # creating class for points
                     neutrons.remove(n)
 
                     for i in range(randint(2, 3)):
-                        neu = Point(self.x, self.y, randint(-speed, speed), randint(-speed, speed), blue)
+                        neu = Point(self.x, self.y, randint(-speed, speed),
+                                    randint(-speed, speed), blue)
                         points.append(neu)
                         neutrons.append(neu)
-                    
+
                     for i in range(2):
-                        points.append(Point(self.x, self.y, randint(-speed, speed), randint(-speed, speed), brown, 10))
-                    
+                        points.append(
+                            Point(self.x, self.y, randint(-speed, speed),
+                                  randint(-speed, speed), brown, 10))
+
                     points.remove(self)
                     break
-
 
 
 # creating points on window
@@ -91,7 +92,8 @@ font1 = pygame.font.Font(None, 30)
 # main cycle
 go = True
 while True:
-    xt, yt = pygame.mouse.get_pos() # find coordinate cursor
+    pressed = pygame.mouse.get_pressed()
+    xt, yt = pygame.mouse.get_pos()  # find coordinate cursor
     for i in pygame.event.get():
         if i.type == pygame.QUIT:
             exit()
@@ -104,16 +106,15 @@ while True:
                 else:
                     go = True
         if i.type == pygame.MOUSEBUTTONDOWN:
-            if i.button == 1: # LMB
-                p = Point(xt, yt, randint(-speed, speed), randint(-speed, speed), blue)
+            if i.button == 1:  # LMB
+                p = Point(xt, yt, randint(-speed, speed),
+                          randint(-speed, speed), blue)
                 points.append(p)
                 neutrons.append(p)
-            if i.button == 3: # RMB
-                p = Point(xt, yt, 0, 0, green)
-                points.append(p)
-                urans.append(p)
+            if i.button == 3:  # RMB
+                points.append(Point(xt, yt, 0, 0, green))
 
-    if go: # updating points
+    if go:  # updating points
         win.fill(gray)
         [p.update() for p in points]
         [p.decay() for p in points]
@@ -129,7 +130,8 @@ while True:
         # itself text
         uran = font1.render('Количество урана: ' + str(col_u), 1, (0, 0, 0))
         win.blit(uran, (3, 3))
-        neutron = font1.render('Количество нейтронов: ' + str(col_n), 1, (0, 0, 0))
+        neutron = font1.render('Количество нейтронов: ' + str(col_n), 1,
+                               (0, 0, 0))
         win.blit(neutron, (3, 23))
 
     # updating window
