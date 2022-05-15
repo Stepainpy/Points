@@ -1,4 +1,3 @@
-from ctypes.wintypes import POINT
 from random import *
 import pygame
 import math
