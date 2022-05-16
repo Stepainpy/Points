@@ -4,8 +4,9 @@ import math
 
 pygame.init()
 
-# for create no charge point press RMB or mouse wheel for package
 # for create charge point press LMB
+# for create no charge point press RMB or mouse wheel for package
+# for stopping a point when it is created and vice versa press S
 # for pause/start press Space
 # for exit press Esc or window cross
 
