@@ -1,0 +1,135 @@
+цвета
+blue = pygame.Color('#063971')
+orange = pygame.Color('#ff7b00')
+brown = pygame.Color('#914626')
+green = pygame.Color('#008f0e')
+cyan = pygame.Color('#00a6ed')
+white = pygame.Color('#ffffff')
+gray = pygame.Color('#a8a8a8')
+
+====================================================================================================
+
+класс точек
+points = []
+
+
+class Point:
+
+    def __init__(self, x, y, ax, ay, color):
+        self.x = x
+        self.y = y
+        self.ax = ax
+        self.ay = ay
+        self.color = color
+
+    def update(self):
+        # moving
+        self.x += self.ax
+        self.y += self.ay
+
+        # reflection from the wall
+        if self.x <= 0 or self.x >= wid:
+            self.ax = -self.ax
+        if self.y <= 0 or self.y >= hei:
+            self.ay = -self.ay
+
+        pygame.draw.circle(win, self.color, (self.x, self.y), 5)
+
+====================================================================================================
+
+класс порталов
+---------------------------------
+    def tp(self, b, o):
+        xa = self.x - b.x
+        ya = self.y - b.y
+
+        xa = -xa
+        ya = -ya
+
+        xa = xa + self.ax + o.x
+        ya = ya + self.ay + o.y
+
+        self.x = xa
+        self.y = ya
+--------------------------------- эту функцию добавить в класс Point
+
+blue_portals = []
+orange_portals = []
+
+
+class Portal(Point):
+
+    def __init__(self, x, y, ax, ay, color):
+        super().__init__(x, y, ax, ay, color)
+        self.connection = False
+        self.partner = None
+
+    def update(self):
+        if not self.connection:
+            if self.color == blue:
+                for i in orange_portals:
+                    if not i.connection:
+                        self.partner = i
+                        self.connection = True
+
+                        i.partner = self
+                        i.connection = True
+                        break
+            elif self.color == orange:
+                for i in blue_portals:
+                    if not i.connection:
+                        self.partner = i
+                        self.connection = True
+
+                        i.partner = self
+                        i.connection = True
+                        break
+        else:
+            for p in points:
+                if math.sqrt((p.x - self.x)**2 + (p.y - self.y)**2) <= 21:
+                    p.tp(self, self.partner)
+
+        if self.connection:
+            pygame.draw.circle(win, white, (self.x, self.y), 15)
+        else:
+            pygame.draw.circle(win, gray, (self.x, self.y), 15)
+
+        pygame.draw.circle(win, self.color, (self.x, self.y), 15, 3)
+
+====================================================================================================
+
+ускорение и замедление времени
+if i.key == pygame.K_UP:
+    fps = 210
+if i.key == pygame.K_RIGHT:
+    fps = 140
+if i.key == pygame.K_DOWN:
+    fps = 70
+if i.key == pygame.K_LEFT:
+    fps = 35
+
+====================================================================================================
+
+пауза
+if i.key == pygame.K_SPACE:
+    if go:
+        go = False
+    else:
+        go = True
+
+====================================================================================================
+
+выход из программы
+for i in pygame.event.get():
+    if i.type == pygame.QUIT:
+        exit()
+    if i.type == pygame.KEYDOWN:
+        if i.key == pygame.K_ESCAPE:
+            exit()
+
+====================================================================================================
+
+обновление экрана
+pygame.display.flip()
+pygame.display.set_caption(f'FPS: {round(clock.get_fps())}')
+clock.tick(fps)
