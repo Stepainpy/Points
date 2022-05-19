@@ -97,15 +97,15 @@ class Portal(Point): # using class Point creating class Portal
                         break
         else:
             for p in points:
-                if math.sqrt((p.x - self.x)**2 + (p.y - self.y)**2) <= 21:
+                if math.sqrt((p.x - self.x)**2 + (p.y - self.y)**2) <= 26:
                     p.tp(self, self.partner)
 
         if self.connection:
-            pygame.draw.circle(win, white, (self.x, self.y), 15)
+            pygame.draw.circle(win, white, (self.x, self.y), 20)
         else:
-            pygame.draw.circle(win, gray, (self.x, self.y), 15)
+            pygame.draw.circle(win, gray, (self.x, self.y), 20)
 
-        pygame.draw.circle(win, self.color, (self.x, self.y), 15, 3)
+        pygame.draw.circle(win, self.color, (self.x, self.y), 20, 3)
 
             
 
