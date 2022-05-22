@@ -7,6 +7,7 @@ pygame.init()
 # for create blue portal press LMB
 # for create orange portal press RMB
 # for create point press mouse wheel
+# for visualization connection between portals press V
 # for pause/start press Space
 # for exit press Esc or window cross
 
@@ -73,7 +74,7 @@ class Portal(Point): # using class Point creating class Portal
     def __init__(self, x, y, ax, ay, color):
         super().__init__(x, y, ax, ay, color)
         self.connection = False
-        self.partner = None
+        self.partner = False
 
     def update(self):
         if not self.connection:
@@ -106,7 +107,6 @@ class Portal(Point): # using class Point creating class Portal
             pygame.draw.circle(win, gray, (self.x, self.y), 20)
 
         pygame.draw.circle(win, self.color, (self.x, self.y), 20, 3)
-
             
 
 # creating points on window
@@ -121,6 +121,7 @@ font1 = pygame.font.Font(None, 30)
 
 # main cycle
 go = True
+visits = False
 while True:
     xt, yt = pygame.mouse.get_pos() # find coordinate cursor
     for i in pygame.event.get():
@@ -134,6 +135,11 @@ while True:
                     go = False
                 else:
                     go = True
+            if i.key == pygame.K_v:
+                if visits:
+                    visits = False
+                else:
+                    visits = True
         if i.type == pygame.MOUSEBUTTONDOWN:
             if i.button == 1: # LMB
                 blue_portals.append(Portal(xt, yt, 0, 0, blue))
@@ -144,6 +150,12 @@ while True:
 
     if go: # updating points and portals
         win.fill(gray)
+
+        if visits:
+            for b in blue_portals:
+                if b.partner:
+                    pygame.draw.line(win, (0, 0, 0), (b.x, b.y), (b.partner.x, b.partner.y), 2)
+        
         [p.update() for p in points]
         [b.update() for b in blue_portals]
         [o.update() for o in orange_portals]
